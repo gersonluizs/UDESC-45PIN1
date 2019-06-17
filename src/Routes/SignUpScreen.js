@@ -1,51 +1,54 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { TouchableOpacity, View, StyleSheet, TextInput, ScrollView, Text } from 'react-native';
 
-var nome = '',
-  sobrenome = '',
-  email = '',
-  password = '',
-  confirmPassword = '';
+class SignUpScreen extends Component {
+  state = {
+    nome: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+  }
 
-const SignUp = () => (
-  <ScrollView>
-    <View style={styles.container}>
+  render() {
+    return (
+      <ScrollView>
+        <View style={styles.container}>
 
-      <TextInput style={styles.input}
-        placeholder='Digite seu nome'
-        values={nome}
-        onChangeText={nome => nome}
-      />
+          <TextInput style={styles.input}
+            placeholder='Digite seu nome'
+            values={this.state.nome}
+            onChangeText={nome => this.setState({ nome })}
+          />
 
-      <TextInput style={styles.input}
-        placeholder='Digite seu sobrenome'
-        values={sobrenome}
-        onChangeText={sobrenome => sobrenome}
-      />
-      <TextInput style={styles.input}
-        placeholder='Digite seu email'
-        values={email}
-        onChangeText={email => email}
-      />
-      <TextInput style={styles.senha}
-        placeholder='Digite sua senha'
-        values={password}
-        onChangeText={password => password}
-      />
-      <TextInput style={styles.Confsenha}
-        placeholder='Confirme sua senha'
-        values={confirmPassword}
-        onChangeText={confirmPassword => confirmPassword}
-      />
+          <TextInput style={styles.input}
+            placeholder='Digite seu email'
+            values={this.state.email}
+            onChangeText={email => this.setState({email})}
+          />
+          <TextInput style={styles.senha}
+            placeholder='Digite sua senha'
+            secureTextEntry={true}
+            values={this.state.password}
+            onChangeText={password => this.setState({password})}
+          />
+          <TextInput style={styles.Confsenha}
+            placeholder='Confirme sua senha'
+            secureTextEntry={true}
+            values={this.state.confirmPassword}
+            onChangeText={confirmPassword => this.setState({confirmPassword})}
+          />
 
 
-      <TouchableOpacity style={styles.button} onPress={this.values} >
-        <Text style={styles.buttonText}>Cadastrar</Text>
-      </TouchableOpacity>
+          <TouchableOpacity style={styles.button} onPress={this.values} >
+            <Text style={styles.buttonText}>Cadastrar</Text>
+          </TouchableOpacity>
 
-    </View>
-  </ScrollView>
-);
+        </View>
+      </ScrollView>
+    );
+  }
+
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -96,9 +99,9 @@ const styles = StyleSheet.create({
   }
 });
 
-SignUp.navigationOptions = {
+SignUpScreen.navigationOptions = {
   title: 'Sou novo aqui',
 
 }
 
-export default SignUp;
+export default SignUpScreen;

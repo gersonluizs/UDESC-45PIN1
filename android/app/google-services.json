@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "586081478767",
+    "firebase_url": "https://precocerto-120a1.firebaseio.com",
+    "project_id": "precocerto-120a1",
+    "storage_bucket": "precocerto-120a1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:586081478767:android:b754e329baaa9c6f",
+        "android_client_info": {
+          "package_name": "com.precocerto"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "586081478767-iqf607r1fmvgqds60ccb7vs7m3nejmoe.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDf0CeMr5a7yJBJAeS9zpg0NOTW7QrPgX4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "586081478767-iqf607r1fmvgqds60ccb7vs7m3nejmoe.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "586081478767-34ilgv4r7msbl2jal9jsu0s7fvm1k1nm.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "br.udesc.precocerto"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

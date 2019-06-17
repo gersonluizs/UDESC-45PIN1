@@ -1,36 +1,72 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { StyleSheet, Image, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import firebase from 'react-native-firebase';
+import { ScrollView } from 'react-native-gesture-handler';
 
-const LogIn = ({navigation}) => (
-  <View style={styles.container}>
-    <Image source={require('../Images/logoInicial.jpg')} style={[styles.logo]} />
+class LogInScreen extends Component {
+  state = {
+    email: '',
+    password: '',
+    isAuthenticated: false,
+  };
 
-    <TextInput style={styles.input}
-      placeholder = 'email'
-      values = {this.email}
-      onChangeText = {email => this.emailsetState({ email })}
-    />
+  login = async () => {
 
-    <TextInput style={styles.input}
-      placeholder='senha'
-      value={this.password}
-      onChangeText={password => this.setState({ password })}
-    />
+    try {
 
-    <TouchableOpacity style={styles.button} onPress={this.login} >
-      <Text
-        style={styles.buttonText}
-        onPress={() => navigation.navigate('Welcome')}
-      >
-        ENTRAR
-            </Text>
-    </TouchableOpacity>
+      const { email, password } = this.state;
 
-    <TouchableOpacity style={styles.buttonFazerCadastro} onPress={ () => navigation.navigate('SignUp') } >
-      <Text style={styles.buttonTextCad}>Sou novo aqui, fazer cadastro.</Text>
-    </TouchableOpacity>
-  </View>
-);
+      const user = await firebase.auth()
+        .signInWithEmailAndPassword(email, password);
+
+      this.setState({ isAuthenticated: true });
+      this.props.navigation.navigate('Welcome');
+
+    } catch (error) {
+      alert('Usuário e/ou senha inválidos');
+    }
+  }
+
+  render() {
+    return (
+      <ScrollView>
+        <View style={styles.container}>
+          <Image source={require('../Images/logoInicial.jpg')} style={[styles.logo]} />
+
+          <TextInput style={styles.input}
+            placeholder='email'
+            values={this.state.email}
+            keyboardType={'email-address'}
+            autoCapitalize={'none'}
+            autoCorrect={false}
+            returnKeyType='next'
+            onChangeText={email => this.setState({ email })}
+            autoFocus={true}
+          />
+
+          <TextInput style={styles.input}
+            placeholder='senha'
+            secureTextEntry={true}
+            value={this.state.password}
+            onChangeText={password => this.setState({ password })}
+          />
+
+          <TouchableOpacity style={styles.button} onPress={this.login} >
+            <Text style={styles.buttonText}>Entrar</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.buttonFazerCadastro} onPress={() => this.props.navigation.navigate('SignUp')} >
+            <Text style={styles.buttonTextCad}>Sou novo aqui, fazer cadastro.</Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+    );
+  }
+}
+
+const Login = {
+
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -39,8 +75,7 @@ const styles = StyleSheet.create({
   },
   logo: {
     height: 160,
-    marginBottom: 80,
-    marginTop: 64,
+    margin: 20,
     padding: 15,
     width: 150,
   },
@@ -55,7 +90,6 @@ const styles = StyleSheet.create({
   },
   button: {
     height: 45,
-    marginTop: 30,
     backgroundColor: '#20b2aa',
     alignSelf: 'stretch',
     paddingHorizontal: 20,
@@ -68,7 +102,6 @@ const styles = StyleSheet.create({
   },
   buttonFazerCadastro: {
     height: 45,
-    marginTop: 40,
     backgroundColor: '#FFF',
     alignSelf: 'center',
   },
@@ -78,8 +111,8 @@ const styles = StyleSheet.create({
   }
 });
 
-LogIn.navigationOptions = {
+LogInScreen.navigationOptions = {
   title: 'Entrar',
 }
 
-export default LogIn;
+export default LogInScreen;

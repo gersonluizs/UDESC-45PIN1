@@ -64,10 +64,6 @@ class LogInScreen extends Component {
   }
 }
 
-const Login = {
-
-};
-
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',

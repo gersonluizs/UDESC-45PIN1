@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { TouchableOpacity, View, StyleSheet, TextInput, ScrollView, Text } from 'react-native';
+import firebase from 'react-native-firebase';
 
 class SignUpScreen extends Component {
   state = {
@@ -7,6 +8,24 @@ class SignUpScreen extends Component {
     email: '',
     password: '',
     confirmPassword: '',
+    isAuthenticated: false,
+  }
+
+  SignUp = async () => {
+
+    try {
+
+      const { email, password } = this.state;
+
+      const user = await firebase.auth()
+        .createUserWithEmailAndPassword(email, password);
+
+      this.setState({ isAuthenticated: true });
+      this.props.navigation.navigate('Welcome');
+
+    } catch (error) {
+      alert('Ocorreu um erro ao inserir o usuário, tente novamente');
+    }
   }
 
   render() {
@@ -23,7 +42,7 @@ class SignUpScreen extends Component {
           <TextInput style={styles.input}
             placeholder='Digite seu email'
             values={this.state.email}
-            onChangeText={email => this.setState({email})}
+            onChangeText={email => this.setState({ email })}
           />
           <TextInput style={styles.senha}
             placeholder='Digite sua senha'
@@ -39,7 +58,7 @@ class SignUpScreen extends Component {
           />
 
 
-          <TouchableOpacity style={styles.button} onPress={this.values} >
+          <TouchableOpacity style={styles.button} onPress={this.SignUp} >
             <Text style={styles.buttonText}>Cadastrar</Text>
           </TouchableOpacity>
 

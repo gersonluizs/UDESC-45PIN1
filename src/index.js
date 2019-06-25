@@ -1,31 +1,39 @@
-import React, {Component} from 'react';
-import Login from './Routes/LoginScreen';
-import SignUp from './Routes/SignUpScreen';
-import Welcome from './Routes/WelcomeScreen';
 import { 
   createAppContainer, 
   createStackNavigator,
-  createBottomTabNavigator,
+  createDrawerNavigator,
+  createSwitchNavigator,
 } from 'react-navigation';
 
+import Login from './Routes/LoginScreen';
+import SignUp from './Routes/SignUpScreen';
+import Routes from './Routes/Main';
 
-const AppNavigator = createStackNavigator (
-  { 
-    Login: {
-      screen: Login
-    },
-    SignUp: {
-      screen: SignUp
-    },
-    Welcome: {
-      screen: Welcome
-    },
-  },
-  {
-    initialRouteName: 'Login'
+const AppStackNavigator = createStackNavigator({
+  Routes,
+})
+
+const AppDrawerNavigator = createDrawerNavigator({
+  Main: {
+    screen: AppStackNavigator,
   }
-);
+})
 
-const AppContainer = createAppContainer(AppNavigator);
+const AppSwitchNavigator = createSwitchNavigator({
+  Login: {
+    screen: Login
+  },
+  SignUp: {
+    screen: SignUp
+  },
+  Welcome: {
+    screen: AppDrawerNavigator
+  },
+},
+{
+  initialRouteName: 'Welcome'
+});
+
+const AppContainer = createAppContainer(AppSwitchNavigator);
 
 export default AppContainer;

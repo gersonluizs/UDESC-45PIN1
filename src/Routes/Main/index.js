@@ -1,4 +1,3 @@
-import { StyleSheet } from 'react-native';
 import { createBottomTabNavigator, createAppContainer } from 'react-navigation';
 
 import Produtos from './Produtos';

@@ -19,6 +19,8 @@ class LogInScreen extends Component {
       const user = await firebase.auth()
         .signInWithEmailAndPassword(email, password);
 
+
+      console.log(user);
       this.setState({ isAuthenticated: true });
       this.props.navigation.navigate('Welcome');
 

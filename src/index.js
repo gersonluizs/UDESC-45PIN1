@@ -31,7 +31,7 @@ const AppSwitchNavigator = createSwitchNavigator({
   },
 },
 {
-  initialRouteName: 'Welcome'
+  initialRouteName: 'Login'
 });
 
 const AppContainer = createAppContainer(AppSwitchNavigator);

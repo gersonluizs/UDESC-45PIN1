@@ -19,8 +19,6 @@ class LogInScreen extends Component {
       const user = await firebase.auth()
         .signInWithEmailAndPassword(email, password);
 
-
-      console.log(user);
       this.setState({ isAuthenticated: true });
       this.props.navigation.navigate('Welcome');
 
@@ -58,8 +56,9 @@ class LogInScreen extends Component {
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.buttonFazerCadastro} onPress={() => this.props.navigation.navigate('SignUp')} >
-            <Text style={styles.buttonTextCad}>Sou novo aqui, fazer cadastro.</Text>
+              <Text style={styles.buttonTextCad}>Sou novo aqui, fazer cadastro.</Text>
           </TouchableOpacity>
+
         </View>
       </ScrollView>
     );

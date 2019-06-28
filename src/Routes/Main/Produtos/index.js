@@ -1,54 +1,116 @@
 import React, { Component } from 'react';
-import { Text, StyleSheet, View, ScrollView, TextInput, TouchableOpacity, Picker } from 'react-native';
+import { Text, StyleSheet, View, ScrollView, TextInput, Button, TouchableOpacity, Picker, FlatList } from 'react-native';
+import firebase from 'react-native-firebase';
+import Produto from './Produto';
+import Todo from './Todo';
 
-export default class ProdutoScreen extends Component {
-    state = {
-        codbarras: '',
-        marca: '',
-        nome: '',
-        unidadeMedida: '',
-    };
 
-    cadastrarProduto = () => {
-        console.log(this.state)
-    };
+class ProdutoScreen extends Component {
+    constructor() {
+        super();
+        this.ref = firebase.firestore().collection('produtos');
+        this.unsubscribe = null;
+
+        this.state = {
+            codbarras: '',
+            marca: '',
+            nome: '',
+            loading: true,
+            produtos: [],
+        };
+    }
+
+    onCollectionUpdate = (querySnapshot) => {
+        const produtos = [];
+        querySnapshot.forEach((doc) => {
+            const { codbarras, marca, nome } = doc.data();
+
+            produtos.push({
+                key: doc.id,
+                doc,
+                codbarras,
+                marca,
+                nome,
+            });
+        });
+
+        this.setState({
+            produtos,
+            loading: false,
+        });
+    }
+
+    componentDidMount() {
+        this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate)
+    }
+
+    componentWillUnmount() {
+        this.unsubscribe();
+    }
+
+    addProduto() {
+        this.ref.add({
+            codbarras: this.state.codbarras,
+            marca: this.state.marca,
+            nome: this.state.nome,
+        });
+
+        this.setState({
+            codbarras: '',
+            marca: '',
+            nome: '',
+        });
+
+    }
+
+    updateCodBarras(value) {
+        this.setState({ codbarras: value });
+        console.log(this.state.codbarras);
+    }
+
+    updateMarca(value) {
+        this.setState({ marca: value });
+    }
+
+    updateNome(value) {
+        this.setState({ nome: value });
+    }
+
 
     render() {
         return (
             <ScrollView>
                 <View style={styles.container}>
+                    <FlatList
+                        data={this.state.todos}
+                        renderItem={({ item }) => <Todo {...item} />}
+                    />
 
                     <TextInput style={styles.input}
                         placeholder='Cód. Barras'
                         values={this.state.codbarras}
-                        onChangeText={codbarras => this.setState({ codbarras })}
+                        onChangeText={(text) => this.updateCodBarras(text)}
                     />
 
                     <TextInput style={styles.input}
                         placeholder='Marca'
                         values={this.state.marca}
-                        onChangeText={marca => this.setState({ marca })}
+                        onChangeText={(text) => this.updateMarca(text)}
                     />
                     <TextInput style={styles.input}
                         placeholder='Nome produto'
                         values={this.state.nome}
-                        onChangeText={nome => this.setState({ nome })}
+                        onChangeText={(text) => this.updateNome(text)}
                     />
-                    <Picker
-                        selectedValue={this.state.unidadeMedida}
-                        style={styles.picker}
-                        onValueChange={(itemValue) =>
-                            this.setState({ unidadeMedida: itemValue })
-                        }>
-                        <Picker.Item label="Selecione..." value="0" />
-                        <Picker.Item label="UN" value="un" />
-                        <Picker.Item label="Kg" value="Kg" />
-                    </Picker>
 
-
-                    <TouchableOpacity style={styles.button} onPress={this.cadastrarProduto} >
+                    <TouchableOpacity style={styles.button} onPress={() => this.addProduto()} >
                         <Text style={styles.buttonText}>Cadastrar</Text>
                     </TouchableOpacity>
+
+                    <FlatList
+                        data={this.state.produtos}
+                        renderItem={({ item }) => console.log(item)}
+                    />
 
                 </View>
             </ScrollView>
@@ -101,3 +163,5 @@ ProdutoScreen.navigationOptions = {
     title: 'Produto',
 
 }
+
+export default ProdutoScreen;
